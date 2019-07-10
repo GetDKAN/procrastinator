@@ -1,0 +1,20 @@
+{
+    "name": "getdkan/procrastinator",
+    "description": "Library to define jobs and run them...most likely later.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Procrastinator\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "fmizzell",
+            "email": "fmizzell.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^8.2"
+    }
+}
