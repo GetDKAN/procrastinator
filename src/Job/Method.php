@@ -1,10 +1,7 @@
 <?php
 
 
-namespace Procrastinator\Jobs;
-
-use Procrastinator\Job\Job;
-use Procrastinator\Result;
+namespace Procrastinator\Job;
 
 class Method extends Job
 {

@@ -1,7 +1,7 @@
 <?php
 
 use Procrastinator\Job\Job;
-use Procrastinator\Jobs\Method;
+use Procrastinator\Job\Method;
 use Procrastinator\Result;
 
 class RunnerTest extends \PHPUnit\Framework\TestCase

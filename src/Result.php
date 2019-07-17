@@ -4,8 +4,10 @@
 namespace Procrastinator;
 
 
-class Result
+class Result implements \JsonSerializable
 {
+  use Hydratable;
+
   const STOPPED = 'stopped';
   const IN_PROGRESS ='in_progress';
   const ERROR = 'error';
@@ -43,5 +45,10 @@ class Result
 
   public function getError() {
     return $this->error;
+  }
+
+  public function jsonSerialize()
+  {
+    return (object) ['status' => $this->status, 'data' => $this->data, 'error' => $this->error];
   }
 }

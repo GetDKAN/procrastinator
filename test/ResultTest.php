@@ -9,4 +9,15 @@ class ResultTest extends \PHPUnit\Framework\TestCase
     $result = new Result();
     $result->setStatus("blah");
   }
+
+  public function testSerialization() {
+    $result = new Result();
+    $result->setStatus(Result::ERROR);
+    $result->setData("Hello Friend");
+    $json = json_encode($result);
+
+    $result2 = Result::hydrate($json);
+
+    $this->assertEquals($result, $result2);
+  }
 }

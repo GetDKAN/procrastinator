@@ -3,7 +3,6 @@
 
 namespace Procrastinator\Job;
 
-
 use Procrastinator\Result;
 
 abstract class Job implements IJob
