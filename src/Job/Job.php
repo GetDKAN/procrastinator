@@ -49,7 +49,7 @@ abstract class Job implements \JsonSerializable
 
   abstract protected function runIt();
 
-  public function setTimeLimit($seconds)
+  public function setTimeLimit(int $seconds)
   {
     $this->timeLimit = $seconds;
   }
