@@ -5,9 +5,10 @@ namespace Procrastinator\Job;
 
 use Procrastinator\Result;
 
-abstract class Job implements IJob
+abstract class Job implements \JsonSerializable
 {
   private $result;
+  private $timeLimit;
 
   public function __construct()
   {
@@ -48,8 +49,56 @@ abstract class Job implements IJob
 
   abstract protected function runIt();
 
+  public function setTimeLimit($seconds)
+  {
+    $this->timeLimit = $seconds;
+  }
+
+  public function getState() {
+    return (array) json_decode($this->getResult()->getData());
+  }
+
+  public function getStateProperty($property) {
+    return $this->getState()[$property];
+  }
+
   public function getResult(): Result
   {
     return $this->result;
+  }
+
+  private function setState($state) {
+    $this->getResult()->setData(json_encode($state));
+  }
+
+  public function setStateProperty($property, $value) {
+    $state = $this->getState();
+    $state[$property] = $value;
+    $this->setState($state);
+  }
+
+  public function jsonSerialize()
+  {
+    return (object) ['timeLimit' => $this->timeLimit, 'result' => $this->getResult()];
+  }
+
+  public static function hydrate($json) {
+    $data = json_decode($json);
+
+    $reflector = new \ReflectionClass(self::class);
+    $object = $reflector->newInstanceWithoutConstructor();
+
+    $reflector = new \ReflectionClass($object);
+
+    $p = $reflector->getProperty('timeLimit');
+    $p->setAccessible(true);
+    $p->setValue($object, $data->timeLimit);
+
+    $class = $reflector->getParentClass();
+    $p = $class->getProperty('result');
+    $p->setAccessible(true);
+    $p->setValue($object, Result::hydrate(json_encode($data->result)));
+
+    return $object;
   }
 }
