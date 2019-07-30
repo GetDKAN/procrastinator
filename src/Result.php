@@ -8,8 +8,6 @@ class Result implements \JsonSerializable
 {
   use Hydratable;
 
-  const UNINITIALIZED = 'uninitialized';
-  const READY = 'ready';
   const STOPPED = 'stopped';
   const IN_PROGRESS ='in_progress';
   const ERROR = 'error';
