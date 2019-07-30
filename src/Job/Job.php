@@ -54,6 +54,10 @@ abstract class Job implements \JsonSerializable
     $this->timeLimit = $seconds;
   }
 
+  public function unsetTimeLimit() {
+    unset($this->timeLimit);
+  }
+
   public function getState() {
     return (array) json_decode($this->getResult()->getData());
   }
