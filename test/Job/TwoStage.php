@@ -2,6 +2,9 @@
 
 namespace ProcrastinatorTest\Job;
 
+use Procrastinator\Job\Job;
+use Procrastinator\Result;
+
 class TwoStage extends Job
 {
     private $stage = 1;
