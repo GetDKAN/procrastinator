@@ -5,20 +5,18 @@ namespace Procrastinator\Job;
 
 class Method extends Job
 {
-  private $object;
-  private $methodName;
+    private $object;
+    private $methodName;
 
-  public function __construct($object, $methodName)
-  {
-    parent::__construct();
-    $this->object = $object;
-    $this->methodName = $methodName;
-  }
+    public function __construct($object, $methodName)
+    {
+        parent::__construct();
+        $this->object = $object;
+        $this->methodName = $methodName;
+    }
 
-  protected function runIt()
-  {
-    return call_user_func([$this->object, $this->methodName]);
-  }
-
-
+    protected function runIt()
+    {
+        return call_user_func([$this->object, $this->methodName]);
+    }
 }
