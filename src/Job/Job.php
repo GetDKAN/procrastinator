@@ -52,7 +52,7 @@ abstract class Job implements \JsonSerializable
 
     public function unsetTimeLimit()
     {
-        unset($this->timeLimit);
+        $this->timeLimit = null;
     }
 
     public function getState()
@@ -84,27 +84,23 @@ abstract class Job implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return (object) ['timeLimit' => $this->timeLimit, 'result' => $this->getResult()];
+        return (object) [
+            'timeLimit' => $this->timeLimit,
+            'result' => $this->getResult()->jsonSerialize()
+        ];
     }
 
-    public static function hydrate($json)
-    {
+    /**
+     * Hydrate an object from the json created by jsonSerialize().
+     * You will want to override this method when implementing specific jobs.
+     * You can use this function for the initial JSON decoding by calling
+     * parent::hydrate() in your implementation.
+     *
+     * @param string $json
+     *   JSON string used to hydrate a new instance of the class.
+     */
+    public static function hydrate($json) {
         $data = json_decode($json);
-
-        $reflector = new \ReflectionClass(self::class);
-        $object = $reflector->newInstanceWithoutConstructor();
-
-        $reflector = new \ReflectionClass($object);
-
-        $p = $reflector->getProperty('timeLimit');
-        $p->setAccessible(true);
-        $p->setValue($object, $data->timeLimit);
-
-        $class = $reflector->getParentClass();
-        $p = $class->getProperty('result');
-        $p->setAccessible(true);
-        $p->setValue($object, Result::hydrate(json_encode($data->result)));
-
-        return $object;
+        return $data;
     }
 }
