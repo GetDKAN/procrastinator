@@ -23,6 +23,26 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("I always fail", $result->getError());
     }
 
+    public function testTimeLimit()
+    {
+        $timeLimit = 10;
+        $job = new Method($this, "callError");
+        $job->setTimeLimit($timeLimit);
+        $result = $job->run();
+        $this->assertTimeLimit($job, $timeLimit);
+
+        $job->unsetTimeLimit();
+        $this->assertTimeLimit($job, null);
+    }
+
+    private function assertTimeLimit(Job $job, $timeLimit)
+    {
+        $r = new \ReflectionObject($job);
+        $p = $r->getParentClass()->getProperty('timeLimit');
+        $p->setAccessible(true);
+        $this->assertEquals($timeLimit, $p->getValue($job));
+    }
+
     public function testReturn()
     {
         $job = new Method($this, "callReturn");
@@ -41,6 +61,28 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $result = $job->run();
         $this->assertEquals(Result::DONE, $result->getStatus());
         $this->assertEquals(json_encode(['a', 'b', 'c', 'd']), $result->getData());
+    }
+
+    public function testSerialization()
+    {
+        $statePropertyA = 1;
+        $statePropertyB = 2;
+        $timeLimit = 10;
+
+        $job = new Method($this, "callMe");
+        $job->setTimeLimit($timeLimit);
+        $job->setStateProperty('a', $statePropertyA);
+        $job->setStateProperty('b', $statePropertyB);
+        $job->run();
+
+        $json = json_encode($job->jsonSerialize());
+
+        $job2 = Method::hydrate($json);
+
+        $this->assertEquals($statePropertyA, $job2->getStateProperty('a'));
+        $this->assertEquals($statePropertyB, $job2->getStateProperty('b'));
+
+        $this->assertTimeLimit($job2, $timeLimit);
     }
 
     public function callMe()
