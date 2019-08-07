@@ -53,7 +53,8 @@ abstract class Job implements \JsonSerializable
 
     public function unsetTimeLimit()
     {
-        $this->setTimeLimit(null);
+        $this->timeLimit = null;
+        $this->setStateProperty('timeLimit', $this->timeLimit);
     }
 
     public function getTimeLimit()
