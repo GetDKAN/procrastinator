@@ -113,7 +113,8 @@ abstract class Job implements \JsonSerializable
      * @param string $json
      *   JSON string used to hydrate a new instance of the class.
      */
-    public static function hydrate($json) {
+    public static function hydrate($json)
+    {
         $data = json_decode($json);
         return $data;
     }
