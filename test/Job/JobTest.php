@@ -18,13 +18,12 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
     public function testStateProperties()
     {
         $job = new Method($this, "callMe");
-        $stateProperty = 'foo';
 
         $this->assertFalse($job->getStateProperty('testProp'));
         $this->assertEquals('bar', $job->getStateProperty('testProp', 'bar'));
 
-        $job->setStateProperty('testProp', $stateProperty);
-        $this->assertEquals($stateProperty, $job->getStateProperty('testProp', $stateProperty));
+        $job->setStateProperty('testProp', 'foo');
+        $this->assertEquals('foo', $job->getStateProperty('testProp', 'bar'));
     }
 
     public function testError()
