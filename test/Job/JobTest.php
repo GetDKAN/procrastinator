@@ -15,6 +15,18 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Result::DONE, $result->getStatus());
     }
 
+    public function testStateProperties()
+    {
+        $job = new Method($this, "callMe");
+        $stateProperty = 'foo';
+
+        $this->assertFalse($job->getStateProperty('testProp'));
+        $this->assertEquals('bar', $job->getStateProperty('testProp', 'bar'));
+
+        $job->setStateProperty('testProp', $stateProperty);
+        $this->assertEquals($stateProperty, $job->getStateProperty('testProp', $stateProperty));
+    }
+
     public function testError()
     {
         $job = new Method($this, "callError");
@@ -29,18 +41,10 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $job = new Method($this, "callError");
         $job->setTimeLimit($timeLimit);
         $result = $job->run();
-        $this->assertTimeLimit($job, $timeLimit);
+        $this->assertEquals($timeLimit, $job->getTimeLimit());
 
         $job->unsetTimeLimit();
-        $this->assertTimeLimit($job, null);
-    }
-
-    private function assertTimeLimit(Job $job, $timeLimit)
-    {
-        $r = new \ReflectionObject($job);
-        $p = $r->getParentClass()->getProperty('timeLimit');
-        $p->setAccessible(true);
-        $this->assertEquals($timeLimit, $p->getValue($job));
+        $this->assertEquals(null, $job->getTimeLimit());
     }
 
     public function testReturn()
@@ -82,7 +86,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($statePropertyA, $job2->getStateProperty('a'));
         $this->assertEquals($statePropertyB, $job2->getStateProperty('b'));
 
-        $this->assertTimeLimit($job2, $timeLimit);
+        $this->assertEquals($timeLimit, $job2->getTimeLimit());
     }
 
     public function callMe()
