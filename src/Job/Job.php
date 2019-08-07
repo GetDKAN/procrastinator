@@ -65,9 +65,16 @@ abstract class Job implements \JsonSerializable
         return (array) json_decode($this->getResult()->getData());
     }
 
-    public function getStateProperty($property)
+    public function getStateProperty(string $property, $default = null)
     {
-        return $this->getState()[$property];
+        $state = $this->getState();
+        if (array_key_exists($property, $state)) {
+            return $state[$property];
+        } elseif (isset($default)) {
+            return $default;
+        } else {
+            return false;
+        }
     }
 
     public function getResult(): Result
@@ -104,7 +111,8 @@ abstract class Job implements \JsonSerializable
      * @param string $json
      *   JSON string used to hydrate a new instance of the class.
      */
-    public static function hydrate($json) {
+    public static function hydrate($json)
+    {
         $data = json_decode($json);
         return $data;
     }
