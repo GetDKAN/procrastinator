@@ -48,11 +48,12 @@ abstract class Job implements \JsonSerializable
     public function setTimeLimit(int $seconds)
     {
         $this->timeLimit = $seconds;
+        $this->setStateProperty('timeLimit', $this->timeLimit);
     }
 
     public function unsetTimeLimit()
     {
-        $this->timeLimit = null;
+        $this->setTimeLimit(null);
     }
 
     public function getTimeLimit()
@@ -65,9 +66,16 @@ abstract class Job implements \JsonSerializable
         return (array) json_decode($this->getResult()->getData());
     }
 
-    public function getStateProperty($property)
+    public function getStateProperty(string $property, $default = null)
     {
-        return $this->getState()[$property];
+        $state = $this->getState();
+        if (array_key_exists($property, $state)) {
+            return $state[$property];
+        } elseif (isset($default)) {
+            return $default;
+        } else {
+            throw new \Exception("The state property '$property' does not exist.");
+        }
     }
 
     public function getResult(): Result
