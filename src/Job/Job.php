@@ -75,7 +75,7 @@ abstract class Job implements \JsonSerializable
         } elseif (isset($default)) {
             return $default;
         } else {
-            throw new \Exception("The state property '$property' does not exist.");
+            return false;
         }
     }
 
