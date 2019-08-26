@@ -17,6 +17,10 @@ abstract class Job implements \JsonSerializable
 
     public function run(): Result
     {
+        if($this->getResult()->getStatus() == Result::DONE) {
+          return $this->getResult();
+        }
+
         $this->result->setStatus(Result::IN_PROGRESS);
 
         try {
