@@ -52,6 +52,11 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $result = $job->run();
         $this->assertEquals(Result::DONE, $result->getStatus());
         $this->assertEquals("Hello", $result->getData());
+
+        // Test that we do not execute when done.
+        $result = $job->run();
+        $this->assertEquals(Result::DONE, $result->getStatus());
+        $this->assertEquals("Hello", $result->getData());
     }
 
     public function testTwoStage()
