@@ -1,4 +1,4 @@
-# [Procrastinator](https://getdkan.github.io/procrastinator/)
+# [procrastinator](https://getdkan.github.io/procrastinator/)
 
 [![CircleCI](https://circleci.com/gh/GetDKAN/procrastinator.svg?style=svg)](https://circleci.com/gh/GetDKAN/procrastinator)
 [![Maintainability](https://api.codeclimate.com/v1/badges/38760b1fef980d3f4ade/maintainability)](https://codeclimate.com/github/GetDKAN/procrastinator/maintainability)
