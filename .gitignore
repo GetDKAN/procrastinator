@@ -3,3 +3,4 @@
 composer.lock
 html
 !.circleci
+!.codeclimate.yml
