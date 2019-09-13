@@ -13,6 +13,7 @@ abstract class Job implements \JsonSerializable
     public function __construct()
     {
         $this->result = new Result(Result::STOPPED);
+        $this->timeLimit = PHP_INT_MAX;
     }
 
     public function run(): Result
@@ -49,14 +50,10 @@ abstract class Job implements \JsonSerializable
 
     abstract protected function runIt();
 
-    public function setTimeLimit(int $seconds)
+    public function setTimeLimit(int $seconds): bool
     {
         $this->timeLimit = $seconds;
-    }
-
-    public function unsetTimeLimit()
-    {
-        $this->timeLimit = null;
+        return true;
     }
 
     public function getTimeLimit()

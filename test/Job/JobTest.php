@@ -39,11 +39,8 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $timeLimit = 10;
         $job = new Method($this, "callError");
         $job->setTimeLimit($timeLimit);
-        $result = $job->run();
+        $job->run();
         $this->assertEquals($timeLimit, $job->getTimeLimit());
-
-        $job->unsetTimeLimit();
-        $this->assertEquals(null, $job->getTimeLimit());
     }
 
     public function testReturn()
