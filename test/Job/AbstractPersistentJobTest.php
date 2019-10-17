@@ -12,7 +12,7 @@ class AbstractPersistentJobTest extends TestCase
 {
     public function testSerialization()
     {
-        $storage = new ObjectMemoryTest(PersistorTest::class);
+        $storage = new Memory();
 
         $timeLimit = 10;
         $job = PersistorTest::get("1", $storage);
@@ -34,6 +34,8 @@ class AbstractPersistentJobTest extends TestCase
 
         $data = json_decode($job3->getResult()->getData());
         $this->assertEquals(TRUE, $data->ran);
+        $this->assertEquals(TRUE, $job3->getStateProperty("ran"));
+        $this->assertEquals(TRUE, $job3->getStateProperty("ran2", TRUE));
         $this->assertEquals($timeLimit, $job3->getTimeLimit());
     }
 
@@ -42,7 +44,7 @@ class AbstractPersistentJobTest extends TestCase
     }
 
     public function testJobError() {
-        $storage = new ObjectMemoryTest(PersistorTest::class);
+        $storage = new Memory();
 
         $timeLimit = 10;
         $job = PersistorTest::get("1", $storage);
@@ -52,17 +54,25 @@ class AbstractPersistentJobTest extends TestCase
         $job->run();
 
         $this->assertEquals("ERROR", $job->getResult()->getError());
+
+        $job2 = PersistorTest::get("1", $storage);
+        $job2->run();
+        $this->assertEquals(TRUE, $job2->getStateProperty("ran"));
     }
 }
 
 class PersistorTest extends AbstractPersistentJob {
     private $errorOut = FALSE;
 
-    public static function hydrate(string $json)
+    public static function hydrate(string $json, $instance = null)
     {
-        $object = json_decode($json);
         $class = new \ReflectionClass(PersistorTest::class);
-        $instance = $class->newInstanceWithoutConstructor();
+
+        if (!$instance) {
+            $instance = $class->newInstanceWithoutConstructor();
+        }
+
+        $object = json_decode($json);
 
         $job = $class->getParentClass()->getParentClass();
 

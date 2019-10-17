@@ -13,13 +13,14 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
 
     public static function get(string $identifier, $storage) {
         if ($storage instanceof StorerInterface && $storage instanceof RetrieverInterface) {
-            $job = $storage->retrieve($identifier);
-            if ($job) {
-                return $job;
+            $new = new static($identifier, $storage);
+
+            $json = $storage->retrieve($identifier);
+            if ($json) {
+                return static::hydrate($json, $new);
             }
 
-            $new = new static($identifier, $storage);
-            $storage->store($new, $identifier);
+            $storage->store(json_encode($new), $identifier);
             return $new;
         }
         return FALSE;
@@ -34,25 +35,8 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
     public function setTimeLimit(int $seconds): bool
     {
         $return = parent::setTimeLimit($seconds);
-        $this->storage->store($this, $this->identifier);
+        $this->selfStore();
         return $return;
-    }
-
-    protected function setStatus($status) {
-        parent::setStatus($status);
-        $this->storage->store($this, $this->identifier);
-    }
-
-    protected function setError($message)
-    {
-        parent::setError($message);
-        $this->storage->store($this, $this->identifier);
-    }
-
-    protected function setState($state)
-    {
-        parent::setState($state);
-        $this->storage->store($this, $this->identifier);
     }
 
     public function jsonSerialize()
@@ -60,5 +44,26 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         $object = parent::jsonSerialize();
         $object->identifier = $this->identifier;
         return $object;
+    }
+
+    protected function setStatus($status) {
+        parent::setStatus($status);
+        $this->selfStore();
+    }
+
+    protected function setError($message)
+    {
+        parent::setError($message);
+        $this->selfStore();
+    }
+
+    protected function setState($state)
+    {
+        parent::setState($state);
+        $this->selfStore();
+    }
+
+    private function selfStore() {
+        $this->storage->store(json_encode($this), $this->identifier);
     }
 }

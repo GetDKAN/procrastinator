@@ -8,7 +8,7 @@ namespace Procrastinator;
  */
 trait HydratableTrait
 {
-    public static function hydrate(string $json)
+    public static function hydrate(string $json, $instance = null)
     {
         $data = json_decode($json);
 
