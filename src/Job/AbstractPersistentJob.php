@@ -11,7 +11,8 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
     private $identifier;
     private $storage;
 
-    public static function get(string $identifier, $storage) {
+    public static function get(string $identifier, $storage)
+    {
         if ($storage instanceof StorerInterface && $storage instanceof RetrieverInterface) {
             $new = new static($identifier, $storage);
 
@@ -23,7 +24,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
             $storage->store(json_encode($new), $identifier);
             return $new;
         }
-        return FALSE;
+        return false;
     }
 
     private function __construct(string $identifier, $storage)
@@ -46,7 +47,8 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return $object;
     }
 
-    protected function setStatus($status) {
+    protected function setStatus($status)
+    {
         parent::setStatus($status);
         $this->selfStore();
     }
@@ -63,7 +65,8 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         $this->selfStore();
     }
 
-    private function selfStore() {
+    private function selfStore()
+    {
         $this->storage->store(json_encode($this), $this->identifier);
     }
 }

@@ -17,12 +17,12 @@ abstract class Job implements \JsonSerializable
 
     public function run(): Result
     {
-        if($this->getResult()->getStatus() == Result::DONE) {
-          return $this->getResult();
+        if ($this->getResult()->getStatus() == Result::DONE) {
+            return $this->getResult();
         }
 
         // Trying again, clear the previous error.
-        if($this->getResult()->getStatus() == Result::ERROR) {
+        if ($this->getResult()->getStatus() == Result::ERROR) {
             $this->getResult()->setError("");
         }
 
@@ -106,11 +106,13 @@ abstract class Job implements \JsonSerializable
         ];
     }
 
-    protected function setStatus($status) {
+    protected function setStatus($status)
+    {
         $this->getResult()->setStatus($status);
     }
 
-    protected function setError($message) {
+    protected function setError($message)
+    {
         $this->result->setError($message);
         $this->setStatus(Result::ERROR);
     }

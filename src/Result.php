@@ -9,7 +9,7 @@ class Result implements HydratableInterface
     use HydratableTrait;
 
     const STOPPED = 'stopped';
-    const IN_PROGRESS ='in_progress';
+    const IN_PROGRESS = 'in_progress';
     const ERROR = 'error';
     const DONE = 'done';
 
