@@ -16,7 +16,7 @@ class AbstractPersistentJobTest extends TestCase
 
         $timeLimit = 10;
         $job = PersistorTest::get("1", $storage);
-        $job->setStateProperty("ran", FALSE);
+        $job->setStateProperty("ran", false);
 
         $job->setTimeLimit($timeLimit);
         $job->run();
@@ -27,23 +27,25 @@ class AbstractPersistentJobTest extends TestCase
         $job2 = PersistorTest::hydrate($json);
 
         $data = json_decode($job2->getResult()->getData());
-        $this->assertEquals(TRUE, $data->ran);
+        $this->assertEquals(true, $data->ran);
         $this->assertEquals($timeLimit, $job2->getTimeLimit());
 
         $job3 = PersistorTest::get("1", $storage);
 
         $data = json_decode($job3->getResult()->getData());
-        $this->assertEquals(TRUE, $data->ran);
-        $this->assertEquals(TRUE, $job3->getStateProperty("ran"));
-        $this->assertEquals(TRUE, $job3->getStateProperty("ran2", TRUE));
+        $this->assertEquals(true, $data->ran);
+        $this->assertEquals(true, $job3->getStateProperty("ran"));
+        $this->assertEquals(true, $job3->getStateProperty("ran2", true));
         $this->assertEquals($timeLimit, $job3->getTimeLimit());
     }
 
-    public function testBadStorage() {
+    public function testBadStorage()
+    {
         $this->assertFalse(PersistorTest::get("1", new BadStorageTest()));
     }
 
-    public function testJobError() {
+    public function testJobError()
+    {
         $storage = new Memory();
 
         $timeLimit = 10;
@@ -57,12 +59,13 @@ class AbstractPersistentJobTest extends TestCase
 
         $job2 = PersistorTest::get("1", $storage);
         $job2->run();
-        $this->assertEquals(TRUE, $job2->getStateProperty("ran"));
+        $this->assertEquals(true, $job2->getStateProperty("ran"));
     }
 }
 
-class PersistorTest extends AbstractPersistentJob {
-    private $errorOut = FALSE;
+class PersistorTest extends AbstractPersistentJob
+{
+    private $errorOut = false;
 
     public static function hydrate(string $json, $instance = null)
     {
@@ -93,8 +96,9 @@ class PersistorTest extends AbstractPersistentJob {
         return $instance;
     }
 
-    public function errorOut() {
-        $this->errorOut = TRUE;
+    public function errorOut()
+    {
+        $this->errorOut = true;
     }
 
     protected function runIt()
@@ -102,12 +106,13 @@ class PersistorTest extends AbstractPersistentJob {
         if ($this->errorOut) {
             throw new \Exception("ERROR");
         }
-        $this->setStateProperty("ran", TRUE);
+        $this->setStateProperty("ran", true);
         return;
     }
 }
 
-class ObjectMemoryTest extends Memory {
+class ObjectMemoryTest extends Memory
+{
     private $class;
 
     public function __construct($class)
@@ -126,13 +131,14 @@ class ObjectMemoryTest extends Memory {
     public function retrieve(string $id)
     {
         $data = parent::retrieve($id);
-        if($data) {
+        if ($data) {
             return $this->class::hydrate($data);
         }
-        return NULL;
+        return null;
     }
 }
 
-class BadStorageTest {
+class BadStorageTest
+{
 
 }
