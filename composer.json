@@ -17,5 +17,8 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "^7.5"
+    },
+    "require": {
+        "getdkan/contracts": "dev-loosen-storage-contracts"
     }
 }

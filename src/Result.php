@@ -1,11 +1,12 @@
 <?php
 
-
 namespace Procrastinator;
 
-class Result implements \JsonSerializable
+use Contracts\HydratableInterface;
+
+class Result implements HydratableInterface
 {
-    use Hydratable;
+    use HydratableTrait;
 
     const STOPPED = 'stopped';
     const IN_PROGRESS ='in_progress';
@@ -14,7 +15,7 @@ class Result implements \JsonSerializable
 
     private $status = self::STOPPED;
     private $data = "";
-    private $error = null;
+    private $error = "";
 
     public function setStatus($status)
     {

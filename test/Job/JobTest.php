@@ -6,7 +6,7 @@ use Procrastinator\Job\Job;
 use Procrastinator\Job\Method;
 use Procrastinator\Result;
 
-class RunnerTest extends \PHPUnit\Framework\TestCase
+class JobTest extends \PHPUnit\Framework\TestCase
 {
     public function test()
     {
@@ -68,28 +68,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(json_encode(['a', 'b', 'c', 'd']), $result->getData());
     }
 
-    public function testSerialization()
-    {
-        $statePropertyA = 1;
-        $statePropertyB = 2;
-        $timeLimit = 10;
-
-        $job = new Method($this, "callMe");
-        $job->setTimeLimit($timeLimit);
-        $job->setStateProperty('a', $statePropertyA);
-        $job->setStateProperty('b', $statePropertyB);
-        $job->run();
-
-        $json = json_encode($job->jsonSerialize());
-
-        $job2 = Method::hydrate($json);
-
-        $this->assertEquals($statePropertyA, $job2->getStateProperty('a'));
-        $this->assertEquals($statePropertyB, $job2->getStateProperty('b'));
-
-        $this->assertEquals($timeLimit, $job2->getTimeLimit());
-    }
-
     public function callMe()
     {
     }
@@ -102,5 +80,29 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
     public function callReturn()
     {
         return "Hello";
+    }
+}
+
+class TwoStage extends Job
+{
+    private $stage = 1;
+
+    protected function runIt()
+    {
+        if ($this->stage == 1) {
+            $this->stage = 2;
+
+            $result = $this->getResult();
+            $result->setStatus(Result::STOPPED);
+            $result->setData(json_encode(['a', 'b', 'c']));
+
+            return $result;
+        } elseif ($this->stage == 2) {
+            $data_string = $this->getResult()->getData();
+            $data = json_decode($data_string);
+            $data[] = 'd';
+
+            return json_encode($data);
+        }
     }
 }

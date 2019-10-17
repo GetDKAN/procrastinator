@@ -5,16 +5,15 @@ namespace Procrastinator\Job;
 
 use Procrastinator\Result;
 
+/**
+ * @todo Change name to AbstractJob.
+ */
 abstract class Job implements \JsonSerializable
 {
     private $result;
-    private $timeLimit;
+    private $timeLimit = PHP_INT_MAX;
 
-    public function __construct()
-    {
-        $this->result = new Result(Result::STOPPED);
-        $this->timeLimit = PHP_INT_MAX;
-    }
+    abstract protected function runIt();
 
     public function run(): Result
     {
@@ -22,14 +21,18 @@ abstract class Job implements \JsonSerializable
           return $this->getResult();
         }
 
-        $this->result->setStatus(Result::IN_PROGRESS);
+        // Trying again, clear the previous error.
+        if($this->getResult()->getStatus() == Result::ERROR) {
+            $this->getResult()->setError("");
+        }
+
+        $this->setStatus(Result::IN_PROGRESS);
 
         try {
             $data = $this->runIt();
         } catch (\Exception $e) {
-            $this->result->setStatus(Result::ERROR);
-            $this->result->setError($e->getMessage());
-            return $this->result;
+            $this->setError($e->getMessage());
+            return $this->getResult();
         }
 
         if ($data) {
@@ -37,23 +40,32 @@ abstract class Job implements \JsonSerializable
                 $this->result = $data;
             } elseif (is_string($data)) {
                 $this->result->setData($data);
-                $this->result->setStatus(Result::DONE);
+                $this->setStatus(Result::DONE);
             } else {
                 throw new \Exception("Invalid result or data format.");
             }
         } else {
-            $this->result->setStatus(Result::DONE);
+            $this->setStatus(Result::DONE);
         }
 
         return $this->result;
     }
 
-    abstract protected function runIt();
-
     public function setTimeLimit(int $seconds): bool
     {
         $this->timeLimit = $seconds;
         return true;
+    }
+
+    /**
+     * @todo Check why we need to allow external parties to affect our state.
+     * @todo Should this be renamed to setDataProperty? Should it be in Result?
+     */
+    public function setStateProperty($property, $value)
+    {
+        $state = $this->getState();
+        $state[$property] = $value;
+        $this->setState($state);
     }
 
     public function getTimeLimit()
@@ -80,19 +92,10 @@ abstract class Job implements \JsonSerializable
 
     public function getResult(): Result
     {
+        if (!isset($this->result)) {
+            $this->result = new Result();
+        }
         return $this->result;
-    }
-
-    private function setState($state)
-    {
-        $this->getResult()->setData(json_encode($state));
-    }
-
-    public function setStateProperty($property, $value)
-    {
-        $state = $this->getState();
-        $state[$property] = $value;
-        $this->setState($state);
     }
 
     public function jsonSerialize()
@@ -103,18 +106,17 @@ abstract class Job implements \JsonSerializable
         ];
     }
 
-    /**
-     * Hydrate an object from the json created by jsonSerialize().
-     * You will want to override this method when implementing specific jobs.
-     * You can use this function for the initial JSON decoding by calling
-     * parent::hydrate() in your implementation.
-     *
-     * @param string $json
-     *   JSON string used to hydrate a new instance of the class.
-     */
-    public static function hydrate($json)
+    protected function setStatus($status) {
+        $this->getResult()->setStatus($status);
+    }
+
+    protected function setError($message) {
+        $this->result->setError($message);
+        $this->setStatus(Result::ERROR);
+    }
+
+    protected function setState($state)
     {
-        $data = json_decode($json);
-        return $data;
+        $this->getResult()->setData(json_encode($state));
     }
 }
