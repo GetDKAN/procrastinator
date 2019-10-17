@@ -36,19 +36,24 @@ abstract class Job implements \JsonSerializable
         }
 
         if ($data) {
-            if ($data instanceof Result) {
-                $this->result = $data;
-            } elseif (is_string($data)) {
-                $this->result->setData($data);
-                $this->setStatus(Result::DONE);
-            } else {
-                throw new \Exception("Invalid result or data format.");
-            }
+            $this->processDataFromRunIt($data);
         } else {
             $this->setStatus(Result::DONE);
         }
 
         return $this->result;
+    }
+
+    private function processDataFromRunIt($data)
+    {
+        if ($data instanceof Result) {
+            $this->result = $data;
+        } elseif (is_string($data)) {
+            $this->result->setData($data);
+            $this->setStatus(Result::DONE);
+        } else {
+            throw new \Exception("Invalid result or data format.");
+        }
     }
 
     public function setTimeLimit(int $seconds): bool
