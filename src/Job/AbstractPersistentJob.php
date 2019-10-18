@@ -11,10 +11,10 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
     private $identifier;
     private $storage;
 
-    public static function get(string $identifier, $storage)
+    public static function get(string $identifier, $storage, array $config = null)
     {
         if ($storage instanceof StorerInterface && $storage instanceof RetrieverInterface) {
-            $new = new static($identifier, $storage);
+            $new = new static($identifier, $storage, $config);
 
             $json = $storage->retrieve($identifier);
             if ($json) {
@@ -27,7 +27,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return false;
     }
 
-    private function __construct(string $identifier, $storage)
+    protected function __construct(string $identifier, $storage, array $config = null)
     {
         $this->identifier = $identifier;
         $this->storage = $storage;
