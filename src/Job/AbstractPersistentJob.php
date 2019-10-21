@@ -14,12 +14,12 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
 
     public function run(): Result
     {
-      $result = parent::run();
-      $this->selfStore();
-      return $result;
+        $result = parent::run();
+        $this->selfStore();
+        return $result;
     }
 
-  public static function get(string $identifier, $storage, array $config = null)
+    public static function get(string $identifier, $storage, array $config = null)
     {
         if ($storage instanceof StorerInterface && $storage instanceof RetrieverInterface) {
             $new = new static($identifier, $storage, $config);
