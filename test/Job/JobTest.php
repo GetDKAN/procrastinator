@@ -2,11 +2,12 @@
 
 namespace ProcrastinatorTest\Job;
 
-use Procrastinator\Job\Job;
+use PHPUnit\Framework\TestCase;
 use Procrastinator\Job\Method;
 use Procrastinator\Result;
+use ProcrastinatorTest\Job\Mock\TwoStage;
 
-class RunnerTest extends \PHPUnit\Framework\TestCase
+class JobTest extends TestCase
 {
     public function test()
     {
@@ -66,28 +67,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase
         $result = $job->run();
         $this->assertEquals(Result::DONE, $result->getStatus());
         $this->assertEquals(json_encode(['a', 'b', 'c', 'd']), $result->getData());
-    }
-
-    public function testSerialization()
-    {
-        $statePropertyA = 1;
-        $statePropertyB = 2;
-        $timeLimit = 10;
-
-        $job = new Method($this, "callMe");
-        $job->setTimeLimit($timeLimit);
-        $job->setStateProperty('a', $statePropertyA);
-        $job->setStateProperty('b', $statePropertyB);
-        $job->run();
-
-        $json = json_encode($job->jsonSerialize());
-
-        $job2 = Method::hydrate($json);
-
-        $this->assertEquals($statePropertyA, $job2->getStateProperty('a'));
-        $this->assertEquals($statePropertyB, $job2->getStateProperty('b'));
-
-        $this->assertEquals($timeLimit, $job2->getTimeLimit());
     }
 
     public function callMe()

@@ -3,9 +3,12 @@
 
 namespace Procrastinator;
 
-trait Hydratable
+/**
+ * @todo Change name to HydratableTrait.
+ */
+trait HydratableTrait
 {
-    public static function hydrate($json)
+    public static function hydrate(string $json, $instance = null)
     {
         $data = json_decode($json);
 
