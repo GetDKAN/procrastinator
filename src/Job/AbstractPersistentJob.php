@@ -5,13 +5,21 @@ namespace Procrastinator\Job;
 use Contracts\StorerInterface;
 use Contracts\RetrieverInterface;
 use Contracts\HydratableInterface;
+use Procrastinator\Result;
 
 abstract class AbstractPersistentJob extends Job implements HydratableInterface
 {
     private $identifier;
     private $storage;
 
-    public static function get(string $identifier, $storage, array $config = null)
+    public function run(): Result
+    {
+      $result = parent::run();
+      $this->selfStore();
+      return $result;
+    }
+
+  public static function get(string $identifier, $storage, array $config = null)
     {
         if ($storage instanceof StorerInterface && $storage instanceof RetrieverInterface) {
             $new = new static($identifier, $storage, $config);
