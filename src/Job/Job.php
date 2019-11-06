@@ -3,6 +3,7 @@
 
 namespace Procrastinator\Job;
 
+use Procrastinator\JsonSerializeTrait;
 use Procrastinator\Result;
 
 /**
@@ -10,6 +11,8 @@ use Procrastinator\Result;
  */
 abstract class Job implements \JsonSerializable
 {
+    use JsonSerializeTrait;
+
     private $result;
     private $timeLimit = PHP_INT_MAX;
 
@@ -105,10 +108,7 @@ abstract class Job implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return (object) [
-            'timeLimit' => $this->timeLimit,
-            'result' => $this->getResult()->jsonSerialize()
-        ];
+        return $this->serialize();
     }
 
     protected function setStatus($status)
