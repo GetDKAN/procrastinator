@@ -5,7 +5,7 @@ namespace ProcrastinatorTest\Job;
 use PHPUnit\Framework\TestCase;
 use Procrastinator\Job\Method;
 use Procrastinator\Result;
-use ProcrastinatorTest\Job\Mock\TwoStage;
+use ProcrastinatorTest\Mock\TwoStage;
 
 class JobTest extends TestCase
 {

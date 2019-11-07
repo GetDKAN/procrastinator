@@ -3,8 +3,6 @@
 
 namespace Procrastinator\Job;
 
-use Procrastinator\Result;
-
 class Method extends Job
 {
     private $object;

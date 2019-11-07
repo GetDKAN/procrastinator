@@ -5,10 +5,13 @@ namespace Procrastinator\Job;
 use Contracts\StorerInterface;
 use Contracts\RetrieverInterface;
 use Contracts\HydratableInterface;
+use Procrastinator\HydratableTrait;
 use Procrastinator\Result;
 
 abstract class AbstractPersistentJob extends Job implements HydratableInterface
 {
+    use HydratableTrait;
+
     private $identifier;
     private $storage;
 
@@ -48,13 +51,6 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return $return;
     }
 
-    public function jsonSerialize()
-    {
-        $object = parent::jsonSerialize();
-        $object->identifier = $this->identifier;
-        return $object;
-    }
-
     protected function setStatus($status)
     {
         parent::setStatus($status);
@@ -71,6 +67,13 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
     {
         parent::setState($state);
         $this->selfStore();
+    }
+
+    protected function serializeIgnoreProperties(): array
+    {
+        $ignore = parent::serializeIgnoreProperties();
+        $ignore[] = "storage";
+        return $ignore;
     }
 
     private function selfStore()

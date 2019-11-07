@@ -4,7 +4,7 @@ namespace ProcrastinatorTest\Job;
 
 use Contracts\Mock\Storage\Memory;
 use PHPUnit\Framework\TestCase;
-use ProcrastinatorTest\Job\Mock\Persistor;
+use ProcrastinatorTest\Mock\Persistor;
 
 class AbstractPersistentJobTest extends TestCase
 {

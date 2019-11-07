@@ -1,6 +1,6 @@
 <?php
 
-namespace ProcrastinatorTest\Job\Mock;
+namespace ProcrastinatorTest\Mock;
 
 use Procrastinator\Job\Job;
 use Procrastinator\Result;
