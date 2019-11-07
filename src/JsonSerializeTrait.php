@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Procrastinator;
-
 
 trait JsonSerializeTrait
 {
@@ -47,7 +45,10 @@ trait JsonSerializeTrait
         } elseif ($object instanceof \JsonSerializable) {
             return ['@type' => 'object', '@class' => get_class($object), 'data' => $object->jsonSerialize()];
         } else {
-            throw new \Exception("Failed to serialize object of class {get_class($object)} as it does not implment \\JsonSerializable.");
+            $class = get_class($object);
+            $interface = \JsonSerializable::class;
+            $message = "Failed to serialize {$class} object as it does not implement {$interface}";
+            throw new \Exception($message);
         }
     }
 

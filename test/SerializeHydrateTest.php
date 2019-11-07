@@ -1,8 +1,6 @@
 <?php
 
-
 namespace ProcrastinatorTest;
-
 
 use PHPUnit\Framework\TestCase;
 use ProcrastinatorTest\Mock\Complex;

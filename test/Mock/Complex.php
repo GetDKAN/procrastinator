@@ -1,8 +1,6 @@
 <?php
 
-
 namespace ProcrastinatorTest\Mock;
-
 
 use Contracts\HydratableInterface;
 use Procrastinator\HydratableTrait;
