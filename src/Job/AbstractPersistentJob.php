@@ -12,8 +12,9 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
 {
     use HydratableTrait;
 
-    private $identifier;
-    private $storage;
+    // @todo Children need access to this for clean up. we should clean up here.
+    protected $identifier;
+    protected $storage;
 
     public function run(): Result
     {
