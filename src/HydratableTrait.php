@@ -8,6 +8,10 @@ trait HydratableTrait
     {
         $data = (array) json_decode($json);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception(json_last_error_msg());
+        }
+
         $class = new \ReflectionClass(static::class);
 
         if (!$instance) {
