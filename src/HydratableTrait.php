@@ -6,11 +6,7 @@ trait HydratableTrait
 {
     public static function hydrate(string $json, $instance = null)
     {
-        $data = (array) json_decode($json);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception(json_last_error_msg());
-        }
+        $data = self::decode($json);
 
         $class = new \ReflectionClass(static::class);
 
@@ -34,6 +30,15 @@ trait HydratableTrait
             }
         }
         return $instance;
+    }
+
+    private static function decode($json)
+    {
+        $data = (array) json_decode($json);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception(json_last_error_msg());
+        }
+        return $data;
     }
 
     private static function hydrateProcessValue($value)
