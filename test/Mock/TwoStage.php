@@ -7,7 +7,7 @@ use Procrastinator\Result;
 
 class TwoStage extends Job
 {
-    private $stage = 1;
+    private int $stage = 1;
 
     protected function runIt()
     {
@@ -21,10 +21,10 @@ class TwoStage extends Job
             return $result;
         } elseif ($this->stage == 2) {
             $data_string = $this->getResult()->getData();
-            $data = json_decode($data_string);
+            $data = json_decode($data_string, null, 512, JSON_THROW_ON_ERROR);
             $data[] = 'd';
 
-            return json_encode($data);
+            return json_encode($data, JSON_THROW_ON_ERROR);
         }
     }
 }

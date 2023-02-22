@@ -8,14 +8,14 @@ class Result implements HydratableInterface
 {
     use HydratableTrait;
 
-    const STOPPED = 'stopped';
-    const IN_PROGRESS = 'in_progress';
-    const ERROR = 'error';
-    const DONE = 'done';
+    public const STOPPED = 'stopped';
+    public const IN_PROGRESS = 'in_progress';
+    public const ERROR = 'error';
+    public const DONE = 'done';
 
     private $status = self::STOPPED;
-    private $data = "";
-    private $error = "";
+    private string $data = "";
+    private string $error = "";
 
     public function setStatus($status)
     {
@@ -52,6 +52,7 @@ class Result implements HydratableInterface
         return $this->error;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return (object) ['status' => $this->status, 'data' => $this->data, 'error' => $this->error];

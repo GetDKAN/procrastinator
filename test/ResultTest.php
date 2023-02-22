@@ -18,7 +18,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $result = new Result();
         $result->setStatus(Result::ERROR);
         $result->setData("Hello Friend");
-        $json = json_encode($result);
+        $json = json_encode($result, JSON_THROW_ON_ERROR);
 
         $result2 = Result::hydrate($json);
 

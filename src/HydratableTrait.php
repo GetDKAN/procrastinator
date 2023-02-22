@@ -17,7 +17,7 @@ trait HydratableTrait
         $properties = [];
         $parent = $class;
         while ($parent) {
-            $properties = array_merge($properties, $parent->getProperties());
+            $properties = [...$properties, ...$parent->getProperties()];
             $parent = $parent->getParentClass();
         }
 
@@ -64,8 +64,6 @@ trait HydratableTrait
     {
         $value = (array) $value;
         $array = (array) $value['data'];
-        return array_map(function ($item) {
-            return static::hydrateProcessValue($item);
-        }, $array);
+        return array_map(fn($item) => static::hydrateProcessValue($item), $array);
     }
 }

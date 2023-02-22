@@ -12,7 +12,7 @@ trait JsonSerializeTrait
         $class = new \ReflectionClass(static::class);
         $parent = $class;
         while ($parent) {
-            $properties = array_merge($properties, $parent->getProperties());
+            $properties = [...$properties, ...$parent->getProperties()];
             $parent = $parent->getParentClass();
         }
 

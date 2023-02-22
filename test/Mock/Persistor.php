@@ -7,7 +7,7 @@ use Procrastinator\Job\AbstractPersistentJob;
 
 class Persistor extends AbstractPersistentJob
 {
-    private $errorOut = false;
+    private bool $errorOut = false;
 
     public function errorOut()
     {
@@ -20,7 +20,6 @@ class Persistor extends AbstractPersistentJob
             throw new \Exception("ERROR");
         }
         $this->setStateProperty("ran", true);
-        return;
     }
 
     protected function serializeIgnoreProperties(): array
