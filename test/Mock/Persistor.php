@@ -20,6 +20,7 @@ class Persistor extends AbstractPersistentJob
             throw new \Exception("ERROR");
         }
         $this->setStateProperty("ran", true);
+        return;
     }
 
     protected function serializeIgnoreProperties(): array

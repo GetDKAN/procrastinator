@@ -27,7 +27,6 @@ class Complex implements \JsonSerializable, HydratableInterface
         return $this->stuff[$key];
     }
 
-    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->serialize();

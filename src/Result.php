@@ -52,7 +52,6 @@ class Result implements HydratableInterface
         return $this->error;
     }
 
-    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return (object) ['status' => $this->status, 'data' => $this->data, 'error' => $this->error];

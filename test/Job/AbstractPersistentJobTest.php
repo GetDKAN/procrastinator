@@ -19,18 +19,18 @@ class AbstractPersistentJobTest extends TestCase
         $job->setTimeLimit($timeLimit);
         $job->run();
 
-        $json = json_encode($job, JSON_THROW_ON_ERROR);
+        $json = json_encode($job);
 
         /* @var $job2 \Procrastinator\Job\AbstractPersistentJob */
         $job2 = Persistor::hydrate($json);
 
-        $data = json_decode($job2->getResult()->getData(), null, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($job2->getResult()->getData());
         $this->assertEquals(true, $data->ran);
         $this->assertEquals($timeLimit, $job2->getTimeLimit());
 
         $job3 = Persistor::get("1", $storage);
 
-        $data = json_decode($job3->getResult()->getData(), null, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($job3->getResult()->getData());
         $this->assertEquals(true, $data->ran);
         $this->assertEquals(true, $job3->getStateProperty("ran"));
         $this->assertEquals(true, $job3->getStateProperty("ran2", true));
