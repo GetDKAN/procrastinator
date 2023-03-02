@@ -83,7 +83,7 @@ abstract class Job implements \JsonSerializable
 
     public function getState()
     {
-        return (array) json_decode($this->getResult()->getData(), null, 512, JSON_THROW_ON_ERROR);
+        return (array) json_decode($this->getResult()->getData());
     }
 
     public function getStateProperty(string $property, $default = null)
@@ -124,6 +124,6 @@ abstract class Job implements \JsonSerializable
 
     protected function setState($state)
     {
-        $this->getResult()->setData(json_encode($state, JSON_THROW_ON_ERROR));
+        $this->getResult()->setData(json_encode($state));
     }
 }
