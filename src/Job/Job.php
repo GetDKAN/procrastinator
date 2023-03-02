@@ -106,6 +106,7 @@ abstract class Job implements \JsonSerializable
         return $this->result;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->serialize();
