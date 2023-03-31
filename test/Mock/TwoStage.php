@@ -7,7 +7,7 @@ use Procrastinator\Result;
 
 class TwoStage extends Job
 {
-    private $stage = 1;
+    private int $stage = 1;
 
     protected function runIt()
     {

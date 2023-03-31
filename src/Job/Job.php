@@ -13,8 +13,8 @@ abstract class Job implements \JsonSerializable
 {
     use JsonSerializeTrait;
 
-    private $result;
-    private $timeLimit = PHP_INT_MAX;
+    private ?\Procrastinator\Result $result = null;
+    private int $timeLimit = PHP_INT_MAX;
 
     abstract protected function runIt();
 
@@ -106,6 +106,7 @@ abstract class Job implements \JsonSerializable
         return $this->result;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->serialize();

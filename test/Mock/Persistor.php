@@ -7,7 +7,7 @@ use Procrastinator\Job\AbstractPersistentJob;
 
 class Persistor extends AbstractPersistentJob
 {
-    private $errorOut = false;
+    private bool $errorOut = false;
 
     public function errorOut()
     {
