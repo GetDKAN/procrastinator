@@ -33,7 +33,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
                 return static::hydrate($json, $new);
             }
 
-            $storage->store(json_encode($new), $identifier);
+            $storage->store(json_encode($new, JSON_THROW_ON_ERROR), $identifier);
             return $new;
         }
         return false;
@@ -79,6 +79,6 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
 
     private function selfStore()
     {
-        $this->storage->store(json_encode($this), $this->identifier);
+        $this->storage->store(json_encode($this, JSON_THROW_ON_ERROR), $this->identifier);
     }
 }

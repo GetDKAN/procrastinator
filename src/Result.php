@@ -14,8 +14,8 @@ class Result implements HydratableInterface
     public const DONE = 'done';
 
     private $status = self::STOPPED;
-    private string $data = "";
-    private string $error = "";
+    private string $data = '';
+    private string $error = '';
 
     public function setStatus($status)
     {
