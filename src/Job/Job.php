@@ -14,7 +14,15 @@ abstract class Job implements \JsonSerializable
     use JsonSerializeTrait;
 
     private ?\Procrastinator\Result $result = null;
-    private int $timeLimit = PHP_INT_MAX;
+
+    /**
+     * Time limit in seconds.
+     *
+     * Defaults to three days.
+     *
+     * @var int
+     */
+    private int $timeLimit = 259200;
 
     abstract protected function runIt();
 
@@ -76,7 +84,7 @@ abstract class Job implements \JsonSerializable
         $this->setState($state);
     }
 
-    public function getTimeLimit()
+    public function getTimeLimit(): int
     {
         return $this->timeLimit;
     }
