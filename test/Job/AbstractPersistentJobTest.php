@@ -8,7 +8,7 @@ use ProcrastinatorTest\Mock\Persistor;
 
 class AbstractPersistentJobTest extends TestCase
 {
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $storage = new Memory();
 
@@ -37,13 +37,13 @@ class AbstractPersistentJobTest extends TestCase
         $this->assertEquals($timeLimit, $job3->getTimeLimit());
     }
 
-    public function testBadStorage()
+    public function testBadStorage(): void
     {
         $this->assertFalse(Persistor::get("1", new class {
         }));
     }
 
-    public function testJobError()
+    public function testJobError(): void
     {
         $storage = new Memory();
 

@@ -2,18 +2,19 @@
 
 namespace ProcrastinatorTest;
 
+use PHPUnit\Framework\TestCase;
 use Procrastinator\Result;
 
-class ResultTest extends \PHPUnit\Framework\TestCase
+class ResultTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->expectExceptionMessage("Invalid status blah");
         $result = new Result();
         $result->setStatus("blah");
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $result = new Result();
         $result->setStatus(Result::ERROR);

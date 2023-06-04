@@ -27,12 +27,12 @@ class Result implements HydratableInterface
         }
     }
 
-    public function setData(string $data)
+    public function setData(string $data): void
     {
         $this->data = $data;
     }
 
-    public function setError(string $error)
+    public function setError(string $error): void
     {
         $this->error = $error;
     }
@@ -42,12 +42,12 @@ class Result implements HydratableInterface
         return $this->status;
     }
 
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }
 
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }

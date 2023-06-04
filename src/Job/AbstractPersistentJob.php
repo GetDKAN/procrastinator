@@ -13,7 +13,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
     use HydratableTrait;
 
     // @todo Children need access to this for clean up. we should clean up here.
-    protected $identifier;
+    protected string $identifier;
     protected $storage;
 
     public function run(): Result
@@ -39,7 +39,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return false;
     }
 
-    protected function __construct(string $identifier, $storage, array $config = null)
+    protected function __construct(string $identifier, $storage)
     {
         $this->identifier = $identifier;
         $this->storage = $storage;
@@ -77,7 +77,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return $ignore;
     }
 
-    private function selfStore()
+    private function selfStore(): void
     {
         $this->storage->store(json_encode($this), $this->identifier);
     }
