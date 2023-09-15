@@ -6,7 +6,7 @@ trait HydratableTrait
 {
     public static function hydrate(string $json, $instance = null)
     {
-        $data = (array) json_decode($json);
+        $data = (array) json_decode($json, null, 512, JSON_THROW_ON_ERROR);
 
         $class = new \ReflectionClass(static::class);
 
@@ -57,7 +57,7 @@ trait HydratableTrait
     {
         $value = (array) $value;
         $class = $value['@class'];
-        return $class::hydrate(json_encode($value['data']));
+        return $class::hydrate(json_encode($value['data'], JSON_THROW_ON_ERROR));
     }
 
     private static function hydrateProcessValueArray($value)

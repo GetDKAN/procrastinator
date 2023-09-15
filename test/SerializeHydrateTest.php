@@ -10,7 +10,7 @@ class SerializeHydrateTest extends TestCase
     public function test()
     {
         $object = new Complex();
-        $json = json_encode($object);
+        $json = json_encode($object, JSON_THROW_ON_ERROR);
 
         $object2 = Complex::hydrate($json);
 
