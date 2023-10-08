@@ -60,7 +60,7 @@ trait HydratableTrait
         return $class::hydrate(json_encode($value['data']));
     }
 
-    private static function hydrateProcessValueArray($value)
+    private static function hydrateProcessValueArray($value): array
     {
         $value = (array) $value;
         $array = (array) $value['data'];
