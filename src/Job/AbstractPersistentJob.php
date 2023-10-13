@@ -77,7 +77,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return $ignore;
     }
 
-    private function selfStore()
+    protected function selfStore()
     {
         $this->storage->store(json_encode($this), $this->identifier);
     }
