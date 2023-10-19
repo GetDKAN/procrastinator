@@ -9,14 +9,14 @@ use ProcrastinatorTest\Mock\TwoStage;
 
 class JobTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $job = new Method($this, "callMe");
         $result = $job->run();
         $this->assertEquals(Result::DONE, $result->getStatus());
     }
 
-    public function testStateProperties()
+    public function testStateProperties(): void
     {
         $job = new Method($this, "callMe");
 
@@ -27,7 +27,7 @@ class JobTest extends TestCase
         $this->assertEquals('foo', $job->getStateProperty('testProp', 'bar'));
     }
 
-    public function testError()
+    public function testError(): void
     {
         $job = new Method($this, "callError");
         $result = $job->run();
@@ -35,7 +35,7 @@ class JobTest extends TestCase
         $this->assertEquals("I always fail", $result->getError());
     }
 
-    public function testTimeLimit()
+    public function testTimeLimit(): void
     {
         $timeLimit = 10;
         $job = new Method($this, "callError");
@@ -44,7 +44,7 @@ class JobTest extends TestCase
         $this->assertEquals($timeLimit, $job->getTimeLimit());
     }
 
-    public function testReturn()
+    public function testReturn(): void
     {
         $job = new Method($this, "callReturn");
         $result = $job->run();
@@ -57,7 +57,7 @@ class JobTest extends TestCase
         $this->assertEquals("Hello", $result->getData());
     }
 
-    public function testTwoStage()
+    public function testTwoStage(): void
     {
         $job = new TwoStage();
         $result = $job->run();
@@ -69,16 +69,19 @@ class JobTest extends TestCase
         $this->assertEquals(json_encode(['a', 'b', 'c', 'd']), $result->getData());
     }
 
-    public function callMe()
+    public function callMe(): void
     {
     }
 
+    /**
+     * @return never
+     */
     public function callError()
     {
         throw new \Exception("I always fail");
     }
 
-    public function callReturn()
+    public function callReturn(): string
     {
         return "Hello";
     }

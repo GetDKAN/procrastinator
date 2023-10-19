@@ -13,7 +13,7 @@ abstract class Job implements \JsonSerializable
 {
     use JsonSerializeTrait;
 
-    private ?\Procrastinator\Result $result = null;
+    private ?Result $result = null;
 
     /**
      * Time limit in seconds.
@@ -77,7 +77,7 @@ abstract class Job implements \JsonSerializable
      * @todo Check why we need to allow external parties to affect our state.
      * @todo Should this be renamed to setDataProperty? Should it be in Result?
      */
-    public function setStateProperty($property, $value)
+    public function setStateProperty($property, $value): void
     {
         $state = $this->getState();
         $state[$property] = $value;

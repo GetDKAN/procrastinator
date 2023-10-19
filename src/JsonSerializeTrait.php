@@ -4,13 +4,15 @@ namespace Procrastinator;
 
 trait JsonSerializeTrait
 {
-    private function serialize()
+    /**
+     * @return array<string, mixed>
+     */
+    private function serialize(): array
     {
         $serialized = [];
 
         $properties = [];
-        $class = new \ReflectionClass(static::class);
-        $parent = $class;
+        $parent = new \ReflectionClass(static::class);
         while ($parent) {
             $properties = [...$properties, ...$parent->getProperties()];
             $parent = $parent->getParentClass();
@@ -52,7 +54,7 @@ trait JsonSerializeTrait
         }
     }
 
-    private function serializeProcessValueArray($array)
+    private function serializeProcessValueArray($array): array
     {
         $serialized = [];
 

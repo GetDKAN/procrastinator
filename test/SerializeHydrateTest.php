@@ -7,7 +7,7 @@ use ProcrastinatorTest\Mock\Complex;
 
 class SerializeHydrateTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $object = new Complex();
         $json = json_encode($object);

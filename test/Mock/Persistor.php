@@ -9,7 +9,7 @@ class Persistor extends AbstractPersistentJob
 {
     private bool $errorOut = false;
 
-    public function errorOut()
+    public function errorOut(): void
     {
         $this->errorOut = true;
     }
@@ -20,7 +20,6 @@ class Persistor extends AbstractPersistentJob
             throw new \Exception("ERROR");
         }
         $this->setStateProperty("ran", true);
-        return;
     }
 
     protected function serializeIgnoreProperties(): array
