@@ -8,18 +8,19 @@ class Result implements HydratableInterface
 {
     use HydratableTrait;
 
+    public const WAITING = 'waiting';
     public const STOPPED = 'stopped';
     public const IN_PROGRESS = 'in_progress';
     public const ERROR = 'error';
     public const DONE = 'done';
 
-    private $status = self::STOPPED;
+    private $status = self::WAITING;
     private string $data = "";
     private string $error = "";
 
     public function setStatus($status)
     {
-        $statuss = [self::STOPPED, self::IN_PROGRESS, self::ERROR, self::DONE];
+        $statuss = [self::WAITING, self::STOPPED, self::IN_PROGRESS, self::ERROR, self::DONE];
         if (in_array($status, $statuss)) {
             $this->status = $status;
         } else {
