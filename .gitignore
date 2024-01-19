@@ -1,5 +1,8 @@
 /vendor/
-.*
+.DS_Store
+.ddev
+.idea
+.phpunit.result.cache
 composer.lock
 html
 !.circleci

@@ -114,6 +114,9 @@ abstract class Job implements \JsonSerializable
         return $this->result;
     }
 
+    /**
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
