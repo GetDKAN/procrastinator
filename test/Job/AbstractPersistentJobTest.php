@@ -56,6 +56,10 @@ class AbstractPersistentJobTest extends TestCase
 
         $this->assertEquals("ERROR", $job->getResult()->getError());
 
+        // Ensure result status makes the round trip in storage.
+        $reloaded = Persistor::get("1", $storage);
+        $this->assertEquals("ERROR", $reloaded->getResult()->getError());
+
         $job2 = Persistor::get("1", $storage);
         $job2->run();
         $this->assertEquals(true, $job2->getStateProperty("ran"));
