@@ -2,9 +2,9 @@
 
 namespace Procrastinator\Job;
 
-use Contracts\StorerInterface;
 use Contracts\RetrieverInterface;
-use Contracts\HydratableInterface;
+use Contracts\StorerInterface;
+use Procrastinator\HydratableInterface;
 use Procrastinator\HydratableTrait;
 use Procrastinator\Result;
 

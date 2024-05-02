@@ -2,7 +2,7 @@
 
 namespace ProcrastinatorTest\Mock;
 
-use Contracts\HydratableInterface;
+use Procrastinator\HydratableInterface;
 use Procrastinator\HydratableTrait;
 use Procrastinator\JsonSerializeTrait;
 

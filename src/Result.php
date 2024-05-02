@@ -2,8 +2,6 @@
 
 namespace Procrastinator;
 
-use Contracts\HydratableInterface;
-
 class Result implements HydratableInterface
 {
     use HydratableTrait;
