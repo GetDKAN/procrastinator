@@ -35,6 +35,7 @@ return static function (RectorConfig $rectorConfig): void {
         RemoveUselessVarTagRector::class,
     ]);
 
+    $rectorConfig->removeUnusedImports();
     $rectorConfig->importNames();
     $rectorConfig->importShortClasses(false);
 };
