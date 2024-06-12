@@ -55,7 +55,7 @@ abstract class Job implements \JsonSerializable
         return $this->result;
     }
 
-    private function processDataFromRunIt($data)
+    private function processDataFromRunIt($data): void
     {
         if ($data instanceof Result) {
             $this->result = $data;
@@ -114,6 +114,9 @@ abstract class Job implements \JsonSerializable
         return $this->result;
     }
 
+    /**
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {

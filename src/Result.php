@@ -18,7 +18,7 @@ class Result implements HydratableInterface
     private string $data = "";
     private string $error = "";
 
-    public function setStatus($status)
+    public function setStatus($status): void
     {
         $statuss = [self::WAITING, self::STOPPED, self::IN_PROGRESS, self::ERROR, self::DONE];
         if (in_array($status, $statuss)) {
@@ -53,6 +53,9 @@ class Result implements HydratableInterface
         return $this->error;
     }
 
+    /**
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
