@@ -6,7 +6,6 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
-use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -25,9 +24,6 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->skip([
-        // Don't throw errors on JSON parse problems. Yet.
-        // @todo Throw errors and deal with them appropriately.
-        JsonThrowOnErrorRector::class,
         // We like our tags. Please don't remove them.
         RemoveUselessParamTagRector::class,
         RemoveUselessReturnTagRector::class,
