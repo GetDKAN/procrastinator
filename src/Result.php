@@ -51,6 +51,9 @@ class Result implements HydratableInterface
         return $this->error;
     }
 
+    /**
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {

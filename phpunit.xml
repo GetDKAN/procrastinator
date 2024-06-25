@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-         verbose="false">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         colors="true">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </coverage>
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
@@ -9,11 +14,6 @@
         <!-- Don't fail for external dependencies. -->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
     </php>
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
     <testsuites>
         <testsuite name="all">
             <directory>test</directory>
