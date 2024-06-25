@@ -12,7 +12,7 @@
     "require": {
         "php": ">7.3 <8.4",
         "ext-json": "*",
-        "getdkan/contracts": "^1.1.3"
+        "getdkan/contracts": "dev-no-contracts"
     },
     "require-dev": {
         "phpunit/phpunit": ">8.5.14 <10.0.0",
