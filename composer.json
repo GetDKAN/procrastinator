@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">7.3 <8.4",
+        "php": ">7.3 <8.5",
         "ext-json": "*",
         "getdkan/contracts": "^1.2"
     },
