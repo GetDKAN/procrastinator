@@ -23,7 +23,7 @@ abstract class AbstractPersistentJob extends Job implements HydratableInterface
         return $result;
     }
 
-    public static function get(string $identifier, $storage, array $config = null)
+    public static function get(string $identifier, $storage, ?array $config = null)
     {
         // @todo We need to somehow change these references to StorerInterface
         //   and RetrieverInterface, in order to decouple from
