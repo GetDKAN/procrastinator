@@ -127,7 +127,7 @@ commands:
                   # cd $CIRCLE_WORKING_DIRECTORY
                   qlty coverage publish \
                       # --strip-prefix "/var/www/html/dkan" \
-                      $CIRCLE_WORKING_DIRECTORY/report/clover/clover-$CIRCLE_NODE_INDEX.xml
+                      $CIRCLE_WORKING_DIRECTORY/clover.xml
 
       - when:
           condition:
