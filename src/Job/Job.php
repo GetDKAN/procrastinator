@@ -26,8 +26,7 @@ abstract class Job implements \JsonSerializable
 
     abstract protected function runIt();
 
-    public function run(): Result
-    {
+    public function run(): Result {
         if ($this->getResult()->getStatus() == Result::DONE) {
             return $this->getResult();
         }
