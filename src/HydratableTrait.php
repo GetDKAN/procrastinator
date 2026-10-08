@@ -25,7 +25,6 @@ trait HydratableTrait
         foreach ($properties as $property) {
             $name = $property->getName();
             if (isset($data[$name])) {
-                $property->setAccessible(true);
                 $property->setValue($instance, static::hydrateProcessValue($data[$name]));
             }
         }
