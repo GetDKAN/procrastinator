@@ -22,7 +22,9 @@ trait JsonSerializeTrait
         foreach ($properties as $property) {
             $name = $property->getName();
             if (!in_array($name, $this->serializeIgnoreProperties())) {
-                $property->setAccessible(true);
+                if (PHP_VERSION_ID < 80500) {
+                    $property->setAccessible(true);
+                }
                 $serialized[$property->getName()] = $this->serializeProcessValue($property->getValue($this));
             }
         }
